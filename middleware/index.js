@@ -1,7 +1,9 @@
 const validateUser = (req, res, next) => {
-  if (!req.body.username || !req.body.password) {
-    res.status(404).json({ message: "must provide username and password" });
-  } else next();
+  if (!req.body.username || !req.body.password)
+    res.status(404).json({
+      message: "must provide username and password",
+    });
+  else next();
 };
 
 const errorHandling = (err, req, res, next) => {

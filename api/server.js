@@ -4,10 +4,10 @@ const server = express();
 // mocking database access funcitons
 const { find, register, login } = require("./users/users-model");
 
-// global to server.js middleware
+//  middleware
 const { validateUser, errorHandling } = require("../middleware/index");
-
 server.use(express.json());
+
 // endpoints
 
 // get all users
@@ -28,7 +28,10 @@ server.post("/api/register", validateUser, (req, res, next) => {
 server.post("/api/login", validateUser, (req, res, next) => {
   login(req.body)
     .then((welcomeMessage) => res.status(200).json(welcomeMessage))
-    .catch((err) => next({ status: 404, message: err.message }));
+    .catch((err) => {
+      err.status = 400;
+      next(err);
+    });
 });
 
 server.use(errorHandling);
